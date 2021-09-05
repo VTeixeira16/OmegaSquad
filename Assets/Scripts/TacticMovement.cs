@@ -16,15 +16,15 @@ public class TacticMovement : MonoBehaviour
     [SerializeField] protected float _velMovimento = 7;
     [SerializeField] protected float _velPulo = 4.5f;
 
-    Vector3 velocity = new Vector3();
-    Vector3 heading = new Vector3();
+    protected Vector3 velocity = new Vector3();
+    protected Vector3 heading = new Vector3();
 
-    float halfHeight = 0;
+    protected float halfHeight = 0;
 
-    bool fallingDown = false;
-    bool jumpingUp = false;
-    bool movingEdge = false;
-    Vector3 jumpAlvo;
+    protected bool fallingDown = false;
+    protected bool jumpingUp = false;
+    protected bool movingEdge = false;
+    protected Vector3 jumpAlvo;
 
     protected TileScript actualTargetTile;
 
@@ -179,9 +179,8 @@ public class TacticMovement : MonoBehaviour
                     SetHorizontalVelocity();
                 }
 
-                transform.forward = heading;
+                //transform.forward = heading;
                 transform.position += velocity * Time.deltaTime;
-                Debug.Log("transform.position: " + transform.position);
 
             }
             else
@@ -222,18 +221,18 @@ public class TacticMovement : MonoBehaviour
         tilesSelecionaveis.Clear();
     }
 
-    void CalculateHeading(Vector3 alvo)
+    protected void CalculateHeading(Vector3 alvo)
     {
         heading = alvo - transform.position;
         heading.Normalize();
     }
 
-    void SetHorizontalVelocity()
+    protected void SetHorizontalVelocity()
     {
         velocity = heading * _velMovimento;
     }
 
-    void Jump(Vector3 alvo)
+    protected void Jump(Vector3 alvo)
     {
         if (fallingDown)
         {
@@ -280,9 +279,7 @@ public class TacticMovement : MonoBehaviour
 
             float diferenca = alvoY - transform.position.y;
 
-            Debug.Log("Vel Y: " + velocity.y);
             velocity.y = _velPulo * (0.5f + diferenca / 2.0f);
-            Debug.Log("Vel Y: " + velocity.y);
         }
 
     }
@@ -457,3 +454,4 @@ public class TacticMovement : MonoBehaviour
         _turn = false;
     }
 }
+

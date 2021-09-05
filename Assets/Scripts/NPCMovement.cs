@@ -8,13 +8,13 @@ public class NPCMovement : TacticMovement
     GameObject alvo;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         Init();
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
 
         if (!turn)
@@ -34,13 +34,13 @@ public class NPCMovement : TacticMovement
         }
     }
 
-    void CalculatePath()
+    protected void CalculatePath()
     {
         TileScript targetTile = GetTileAlvo(alvo);
         FindPath(targetTile);
     }
 
-    void FindNearestTarget()
+    protected void FindNearestTarget()
     {
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
 

@@ -8,15 +8,46 @@ public class TurnManager : MonoBehaviour
     static Queue<string> turnKey = new Queue<string>();
     static Queue<TacticMovement> _turnTeam = new Queue<TacticMovement>();
 
+
+    // TODO - NECESSARIO IMPLEMENTAR - VARIAVEIS E METODOS ZUMBIS
+    static int activeZombies; // Armazena todos os zumbis "vivos"
+    static int movingZombies; // Armazena zumbis que ainda estao se movimentando
+
+    
+    public static void AddZombie()
+    {
+        activeZombies++;
+    }
+    public static void RemoveZombie()
+    {
+        if (activeZombies < 0)
+            activeZombies--;
+    }
+
+    public static void IncreaseMovingZombies()
+    {
+        movingZombies++;
+    }
+    public static void SubtractMovingZombies()
+    {
+        if (movingZombies < 0)
+            movingZombies--;
+    }
+
+    public static int GetActiveZombies()
+    {
+        return activeZombies;
+    }
+    // 
+
+    
+
+
     public Queue<TacticMovement> turnTeam
     {
         get { return _turnTeam; }
     }
 
-    void Start()
-    {
-
-    }
 
     void Update()
     {
@@ -33,7 +64,10 @@ public class TurnManager : MonoBehaviour
         foreach (TacticMovement unit in teamList)
         {
             _turnTeam.Enqueue(unit);
+            // Debug.Log("Turno Atual: " + unit.tag);
         }
+
+        // Debug.Log("Personagens ativos: " + teamList.Count);
 
         StartTurn();
 
@@ -49,6 +83,7 @@ public class TurnManager : MonoBehaviour
 
     public static void EndTurn()
     {
+
         TacticMovement unit = _turnTeam.Dequeue();
         unit.EndTurn();
 
@@ -83,8 +118,12 @@ public class TurnManager : MonoBehaviour
             list = units[unit.tag];
         }
 
+        if (unit.tag == "Zombie")
+            AddZombie();
+
         list.Add(unit);
 
-
     }
+
+    //TODO - Criar funcao removeUnit para quando unidade morrer
 }

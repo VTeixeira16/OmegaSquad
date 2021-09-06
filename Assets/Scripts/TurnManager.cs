@@ -12,6 +12,7 @@ public class TurnManager : MonoBehaviour
     // TODO - NECESSARIO IMPLEMENTAR - VARIAVEIS E METODOS ZUMBIS
     static int activeZombies; // Armazena todos os zumbis "vivos"
     static int movingZombies; // Armazena zumbis que ainda estao se movimentando
+    static string _turnTeamName;
 
     
     public static void AddZombie()
@@ -48,6 +49,11 @@ public class TurnManager : MonoBehaviour
         get { return _turnTeam; }
     }
 
+    public static string turnTeamName
+    {
+        get { return _turnTeamName; }
+    }
+
 
     void Update()
     {
@@ -59,18 +65,20 @@ public class TurnManager : MonoBehaviour
 
     static void InitTeamTurnQueue()
     {
+
         List<TacticMovement> teamList = units[turnKey.Peek()];
+
+        Debug.Log("teamList: " + teamList.Count);
+
 
         foreach (TacticMovement unit in teamList)
         {
             _turnTeam.Enqueue(unit);
+            _turnTeamName = unit.tag;
             // Debug.Log("Turno Atual: " + unit.tag);
         }
 
-        // Debug.Log("Personagens ativos: " + teamList.Count);
-
         StartTurn();
-
     }
 
     public static void StartTurn()

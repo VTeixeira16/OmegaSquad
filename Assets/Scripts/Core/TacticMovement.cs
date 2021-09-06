@@ -11,20 +11,13 @@ public class TacticMovement : MonoBehaviour
     TileScript tileAtual;
 
     [SerializeField] protected bool _movendo = false;
-    [SerializeField] protected int _movimentos = 5;
-    [SerializeField] protected float _alturaPulo = 2;
+    [SerializeField] protected int _movementRange = 5;
     [SerializeField] protected float _velMovimento = 7;
-    [SerializeField] protected float _velPulo = 4.5f;
 
     protected Vector3 velocity = new Vector3();
     protected Vector3 heading = new Vector3();
 
     protected float halfHeight = 0;
-
-    protected bool fallingDown = false;
-    protected bool jumpingUp = false;
-    protected bool movingEdge = false;
-    protected Vector3 jumpAlvo;
 
     protected TileScript actualTargetTile;
 
@@ -39,23 +32,13 @@ public class TacticMovement : MonoBehaviour
         set { _movendo = value;}
     }
 
-    public int movimentos
+    public int movementRange
     {
-        get { return _movimentos; }
-    }
-    public float alturaPulo
-    {
-        get { return _alturaPulo; }
+        get { return _movementRange; }
     }
     public float velMovimento
     {
         get { return _velMovimento; }
-    }
-
-    public float velPulo
-    {
-        get { return _velPulo; }
-        set { _velPulo = value; }
     }
 
     public bool turn
@@ -98,19 +81,19 @@ public class TacticMovement : MonoBehaviour
         return tile;
     }
 
-    public void ComputeAdjacencyLists(float jumpHeight, TileScript alvo)
+    public void ComputeAdjacencyLists(TileScript alvo)
     {
         // tiles = GameObject.FindGameObjectsWithTag("Tile");
         foreach (GameObject tile in tiles)
         {
             TileScript t = tile.GetComponent<TileScript>();
-            t.FindNeighbors(alturaPulo, alvo);
+            t.FindNeighbors(alvo);
         }
     }
 
     public void FindSelectableTiles()
     {
-        ComputeAdjacencyLists(_alturaPulo, null);
+        ComputeAdjacencyLists(null);
         GetTileAtual();
 
         Queue<TileScript> process = new Queue<TileScript>();
@@ -125,7 +108,7 @@ public class TacticMovement : MonoBehaviour
             tilesSelecionaveis.Add(t);
             t.selecionavel = true;
 
-            if(t.distance < _movimentos)
+            if(t.distance < _movementRange)
             {
                 foreach(TileScript tile in t.adjacencyList)
                 {
@@ -167,17 +150,9 @@ public class TacticMovement : MonoBehaviour
 
             if(Vector3.Distance(transform.position, alvo) >= 0.05f)
             {
-                bool jump = transform.position.y != alvo.y;
 
-                if (jump)
-                {
-                    Jump(alvo);
-                }
-                else
-                {
-                    CalculateHeading(alvo);
-                    SetHorizontalVelocity();
-                }
+                CalculateHeading(alvo);
+                SetHorizontalVelocity();
 
                 //transform.forward = heading;
                 transform.position += velocity * Time.deltaTime;
@@ -188,10 +163,6 @@ public class TacticMovement : MonoBehaviour
                 //Tile center reached
                 transform.position = alvo;
                 path.Pop();
-                fallingDown = false;
-                jumpingUp = false;
-                movingEdge = false;
-                jumpAlvo = Vector3.zero;
             }
 
         }
@@ -232,107 +203,6 @@ public class TacticMovement : MonoBehaviour
         velocity = heading * _velMovimento;
     }
 
-    protected void Jump(Vector3 alvo)
-    {
-        if (fallingDown)
-        {
-            FallDownward(alvo);
-        }
-        else if (jumpingUp)
-        {
-            JumpUpward(alvo);
-        }
-        else if (movingEdge)
-        {
-            MoveToEdge();
-        }
-        else
-        {
-            PrepareJump(alvo);
-        }
-
-    }
-
-    void PrepareJump(Vector3 alvo)
-    {
-        float alvoY = alvo.y;
-        alvo.y = transform.position.y;
-
-        CalculateHeading(alvo);
-
-        if (transform.position.y > alvo.y)
-        {
-            fallingDown = false;
-            jumpingUp = false; //se for falso, personagem dara um pequeno pulo.
-            movingEdge = true;
-
-            jumpAlvo = transform.position + (alvo - transform.position) / 2.0f;
-            Debug.Log("transform.position" + transform.position);
-        }
-        else
-        {
-            fallingDown = false;
-            jumpingUp = true;
-            movingEdge = false;
-
-            velocity = heading * _velMovimento/ 3.0f;
-
-            float diferenca = alvoY - transform.position.y;
-
-            velocity.y = _velPulo * (0.5f + diferenca / 2.0f);
-        }
-
-    }
-
-    void FallDownward(Vector3 alvo)
-    {
-        velocity += Physics.gravity * Time.deltaTime;
-
-        if (transform.position.y <= alvo.y)
-        {
-            fallingDown = false;    
-            jumpingUp = false;
-            movingEdge = false;
-
-            Vector3 p = transform.position;
-            p.y = alvo.y;
-            transform.position = p;
-
-            velocity = new Vector3();
-
-        }
-    }
-
-    void JumpUpward(Vector3 alvo)
-    {
-        //TODO Pulo nao funciona corretamente
-        velocity += Physics.gravity * Time.deltaTime;
-       
-        if (transform.position.y > alvo.y)
-        {
-            jumpingUp = false;
-            fallingDown = true;
-        }
-
-    }
-
-    void MoveToEdge()
-    {
-        if (Vector3.Distance(transform.position, jumpAlvo) >= 0.05f)
-        {
-            SetHorizontalVelocity();
-
-        }
-        else
-        {
-            movingEdge = false;
-            fallingDown = true;
-
-            velocity /= 5.0f;
-            velocity.y = 1.5f;
-        }
-    }
-
     protected TileScript FindLowestF(List<TileScript> list)
     {
         TileScript lowest = list[0];
@@ -361,13 +231,13 @@ public class TacticMovement : MonoBehaviour
             next = next.parent;
         }
 
-        if (tempPath.Count <= _movimentos)
+        if (tempPath.Count <= _movementRange)
         {
             return t.parent;
         }
 
         TileScript endTile = null;
-        for (int i = 0; i <= _movimentos; i++)
+        for (int i = 0; i <= _movementRange; i++)
         {
             endTile = tempPath.Pop();
         }
@@ -377,7 +247,7 @@ public class TacticMovement : MonoBehaviour
 
     protected void FindPath(TileScript target)
     {
-        ComputeAdjacencyLists(_alturaPulo, target);
+        ComputeAdjacencyLists(target);
         GetTileAtual();
 
         List<TileScript> openList = new List<TileScript>();

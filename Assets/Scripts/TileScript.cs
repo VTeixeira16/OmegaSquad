@@ -114,25 +114,25 @@ public class TileScript : MonoBehaviour
         _parent = null;
         _distance = 0;
     }
-    public void FindNeighbors(float jumpHeight, TileScript alvo)
+    public void FindNeighbors(TileScript alvo)
     {
         //Variavel float jumpHeight tem a utilidade de analisar a altura e se e necessario pular.
         //O jumpHeight tambem pode ser usado para alguns movimentos especificos, como voos de personagens, pulo ninja e etc.
         Reset();
 
-        CheckTile(Vector3.forward, jumpHeight, alvo);
-        CheckTile(Vector3.back, jumpHeight, alvo);
-        CheckTile(Vector3.right, jumpHeight, alvo);
-        CheckTile(Vector3.left, jumpHeight, alvo);
+        CheckTile(Vector3.forward, alvo);
+        CheckTile(Vector3.back, alvo);
+        CheckTile(Vector3.right, alvo);
+        CheckTile(Vector3.left, alvo);
 
     }
 
-    public void CheckTile(Vector3 direction, float jumpHeight, TileScript alvo)
+    public void CheckTile(Vector3 direction,TileScript alvo)
     {
 
         //Cria um colisor partindo do centro do objeto atual ate o centro do proximo objeto.
         //Dependendo do tipo de verificacao de obstaculo, podera ser necessario aumentar para que seja alcancado o tile todo
-        Vector3 halfExtents = new Vector3(0.25f, (1 + jumpHeight) / 2.0f, 0.25f);
+        Vector3 halfExtents = new Vector3(0.25f, 1 / 2.0f, 0.25f);
         Collider[] colliders = Physics.OverlapBox(transform.position + direction, halfExtents);
 
         foreach(Collider item in colliders)

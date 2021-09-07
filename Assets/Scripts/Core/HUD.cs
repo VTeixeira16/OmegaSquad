@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     [SerializeField] Text turnTeamNameTxt;
-
+    [SerializeField] Image photoActualPlayer, photoActualWeapon;
 
 
     //Devera mudar para lista que contera players ativos
@@ -16,8 +16,7 @@ public class HUD : MonoBehaviour
     [SerializeField] List<GameObject> ActionsQtd = new List<GameObject>();
 
 
-    uint hudMovements;
-    uint hudActions;
+    int hudMovements, hudActions;
 
 
     void Start()
@@ -25,11 +24,16 @@ public class HUD : MonoBehaviour
     }
     void Update()
     {
-        hudMovements = player1.GetComponent<PlayerCharacters>().qtdMovimentos;
-        hudActions = player1.GetComponent<PlayerCharacters>().acoes;
-        
-        if(TurnManager.turnTeamName == "Player")
+        if (TurnManager.turnTeamName == "Player")
         {
+            photoActualPlayer.gameObject.SetActive(true);
+            photoActualWeapon.gameObject.SetActive(true);
+
+            hudMovements = TurnManager.GetActualUnit().GetComponent<PlayerCharacters>().qtdMovimentos;
+            hudActions = TurnManager.GetActualUnit().GetComponent<PlayerCharacters>().acoes;
+        
+            photoActualPlayer.sprite = TurnManager.GetActualUnit().GetComponent<PlayerCharacters>().photoPerson;
+
             for (int x = 0; x < MovementsQtd.Count; x++)
             {
                 if(x < hudMovements)
@@ -46,7 +50,25 @@ public class HUD : MonoBehaviour
                     ActionsQtd[x].gameObject.SetActive(false);
             }
         }
+        else
+        {
+            hudMovements = 0;
+            hudActions = 0;
 
-        turnTeamNameTxt.text = "Turn: " + TurnManager.turnTeamName;
+            photoActualPlayer.gameObject.SetActive(false);
+            photoActualWeapon.gameObject.SetActive(false);
+
+            for (int x = 0; x < MovementsQtd.Count; x++)
+            {
+                MovementsQtd[x].gameObject.SetActive(false);
+            }
+
+            for (int x = 0; x < ActionsQtd.Count; x++)
+            {
+                ActionsQtd[x].gameObject.SetActive(false);
+            }
+        }
+
+        // turnTeamNameTxt.text = "Turn: " + TurnManager.turnTeamName;
     }
 }

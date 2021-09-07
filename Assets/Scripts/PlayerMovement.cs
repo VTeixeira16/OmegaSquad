@@ -46,6 +46,11 @@ public class PlayerMovement : TacticMovement
                         MoveToTile(t);
                     }
                 }
+
+                if (hit.collider.tag == "NPC" || hit.collider.tag == "Zombie")
+                {
+                    AttackScript.Atacar(this.gameObject, hit.collider.gameObject);
+                }
             }
         }
     }

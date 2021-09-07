@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerCharacters : BaseCharacters
 {
     //TODO - Implementar sistema de experiencia
     private int _level, _xp;
+    [SerializeField] Sprite _photoPerson;
+    [SerializeField] GameObject _weaponContainer;
+
+    // TODO - Implementar opcao de player ser canhoto. Necessario pesquisar como inverter animacao no eixo X.
+    //  SerializeField] bool Canhoto;
+    //  [SerializeField] GameObject maoAtiva;
+
 
     public int level
     {
@@ -17,7 +25,14 @@ public class PlayerCharacters : BaseCharacters
         get { return _xp; }
         set { _xp = value; }
     }
-
+    public Sprite photoPerson
+    {
+        get { return _photoPerson; }
+    }
+    public GameObject weaponContainer
+    {
+        get { return _weaponContainer; }
+    }
     new void Start()
     {
         base.Start();

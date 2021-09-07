@@ -8,6 +8,8 @@ public class TurnManager : MonoBehaviour
     static Queue<string> turnKey = new Queue<string>();
     static Queue<TacticMovement> _turnTeam = new Queue<TacticMovement>();
 
+    static GameObject actualUnit;
+
 
     // TODO - NECESSARIO IMPLEMENTAR - VARIAVEIS E METODOS ZUMBIS
     static int activeZombies; // Armazena todos os zumbis "vivos"
@@ -39,9 +41,18 @@ public class TurnManager : MonoBehaviour
     {
         return activeZombies;
     }
+
+    public static GameObject GetActualUnit()
+    {
+        return actualUnit;
+    }
+    public static void SetActualUnit(GameObject value)
+    {
+        actualUnit = value;
+    }
     // 
 
-    
+
 
 
     public Queue<TacticMovement> turnTeam

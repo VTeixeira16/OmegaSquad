@@ -57,7 +57,8 @@ public class TacticMovement : MonoBehaviour
     {
         tiles = GameObject.FindGameObjectsWithTag("Tile");
 
-        halfHeight = GetComponent<Collider>().bounds.extents.y;
+        // halfHeight = GetComponent<Collider>().bounds.extents.y;
+        halfHeight = 0.01f;
 
         TurnManager.AddUnit(this);
     }
@@ -146,11 +147,10 @@ public class TacticMovement : MonoBehaviour
             Vector3 alvo = t.transform.position;
 
             //Calculate the unit's position on top of the target tile
-            alvo.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y;
+            alvo.y += (halfHeight )+ t.GetComponent<Collider>().bounds.extents.y;
 
             if(Vector3.Distance(transform.position, alvo) >= 0.05f)
             {
-
                 CalculateHeading(alvo);
                 SetHorizontalVelocity();
 
@@ -309,6 +309,7 @@ public class TacticMovement : MonoBehaviour
     {
         calculouTiles = false;
         turn = true;
+        TurnManager.SetActualUnit(gameObject);
         //if (this.GetComponent<CaracBase>().hp > 0)
         {
             this._acoes = 2;

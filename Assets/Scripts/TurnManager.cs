@@ -9,6 +9,7 @@ public class TurnManager : MonoBehaviour
     static Queue<TacticMovement> _turnTeam = new Queue<TacticMovement>();
 
     static GameObject actualUnit;
+    static GameObject actualTargetAttack;
 
 
     // TODO - NECESSARIO IMPLEMENTAR - VARIAVEIS E METODOS ZUMBIS
@@ -50,10 +51,15 @@ public class TurnManager : MonoBehaviour
     {
         actualUnit = value;
     }
-    // 
 
-
-
+    public static GameObject GetActualTargetAttack()
+    {
+        return actualTargetAttack;
+    }
+    public static void SetActualTargetAttack(GameObject value)
+    {
+        actualTargetAttack = value;
+    }
 
     public Queue<TacticMovement> turnTeam
     {
@@ -104,6 +110,7 @@ public class TurnManager : MonoBehaviour
     {
 
         TacticMovement unit = _turnTeam.Dequeue();
+        actualTargetAttack = null;
         unit.EndTurn();
 
         if (_turnTeam.Count > 0)

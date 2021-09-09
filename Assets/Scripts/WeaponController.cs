@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] GameObject Weapon1, Weapon2;
-
+    [SerializeField] List<GameObject> Weapons = new List<GameObject>();
 
     GameObject _activeWeapon;
 
@@ -16,7 +15,7 @@ public class WeaponController : MonoBehaviour
 
     void Start()
     {
-        _activeWeapon = Weapon1;   
+        _activeWeapon = Weapons[0];   
     }
 
     void Update()

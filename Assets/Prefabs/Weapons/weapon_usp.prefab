@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: usp
+  _photoWeapon: {fileID: 21300000, guid: e53841141bf4f724995373b8688f22e6, type: 3}
   _alcanceArma: 15
   _danoArma: 3
   _precisaoArma: 10

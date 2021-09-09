@@ -7,7 +7,6 @@ public class PlayerCharacters : BaseCharacters
 {
     //TODO - Implementar sistema de experiencia
     private int _level, _xp;
-    [SerializeField] Sprite _photoPerson;
     [SerializeField] GameObject _weaponContainer;
 
     // TODO - Implementar opcao de player ser canhoto. Necessario pesquisar como inverter animacao no eixo X.
@@ -25,10 +24,7 @@ public class PlayerCharacters : BaseCharacters
         get { return _xp; }
         set { _xp = value; }
     }
-    public Sprite photoPerson
-    {
-        get { return _photoPerson; }
-    }
+
     public GameObject weaponContainer
     {
         get { return _weaponContainer; }

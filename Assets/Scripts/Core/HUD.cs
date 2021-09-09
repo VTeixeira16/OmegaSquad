@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField] Text turnTeamNameTxt;
-    [SerializeField] Image photoActualPlayer, photoActualWeapon;
+    [SerializeField] Text turnTeamNameTxt, textAmmo;
+    [SerializeField] Image photoActualPlayer, photoActualWeapon, photoActualEnemy;
 
 
-    //Devera mudar para lista que contera players ativos
-    [SerializeField] GameObject player1;
+    [SerializeField] GameObject HUD_Player;
 
     [SerializeField] List<GameObject> MovementsQtd = new List<GameObject>();
     [SerializeField] List<GameObject> ActionsQtd = new List<GameObject>();
 
+
+    WeaponScript actualWeapon;
 
     int hudMovements, hudActions;
 
@@ -24,15 +25,34 @@ public class HUD : MonoBehaviour
     }
     void Update()
     {
+        turnTeamNameTxt.text = "Turn: " + TurnManager.turnTeamName;
+
         if (TurnManager.turnTeamName == "Player")
         {
-            photoActualPlayer.gameObject.SetActive(true);
-            photoActualWeapon.gameObject.SetActive(true);
+            HUD_Player.SetActive(true);
 
-            hudMovements = TurnManager.GetActualUnit().GetComponent<PlayerCharacters>().qtdMovimentos;
-            hudActions = TurnManager.GetActualUnit().GetComponent<PlayerCharacters>().acoes;
-        
-            photoActualPlayer.sprite = TurnManager.GetActualUnit().GetComponent<PlayerCharacters>().photoPerson;
+            PlayerCharacters actualPlayer = TurnManager.GetActualUnit().GetComponent<PlayerCharacters>();
+            BaseCharacters actualEnemy;
+            if (TurnManager.GetActualTargetAttack() != null)
+            {
+                actualEnemy = TurnManager.GetActualTargetAttack().GetComponent<BaseCharacters>();
+                photoActualEnemy.gameObject.SetActive(true);
+                photoActualEnemy.sprite = actualEnemy.photoPerson;
+            }
+            else
+            {
+                actualEnemy = null;
+                photoActualEnemy.gameObject.SetActive(false);
+            }
+
+            actualWeapon = actualPlayer.weaponContainer.GetComponent<WeaponController>().activeWeapon.GetComponent<WeaponScript>();
+
+            hudMovements = actualPlayer.qtdMovimentos;
+            hudActions = actualPlayer.acoes;
+
+            photoActualPlayer.sprite = actualPlayer.photoPerson;
+            photoActualWeapon.sprite = actualWeapon.photoWeapon;
+            textAmmo.text = actualWeapon.cartuchoQtd + "/" + actualWeapon.cartuchoMax;
 
             for (int x = 0; x < MovementsQtd.Count; x++)
             {
@@ -52,23 +72,7 @@ public class HUD : MonoBehaviour
         }
         else
         {
-            hudMovements = 0;
-            hudActions = 0;
-
-            photoActualPlayer.gameObject.SetActive(false);
-            photoActualWeapon.gameObject.SetActive(false);
-
-            for (int x = 0; x < MovementsQtd.Count; x++)
-            {
-                MovementsQtd[x].gameObject.SetActive(false);
-            }
-
-            for (int x = 0; x < ActionsQtd.Count; x++)
-            {
-                ActionsQtd[x].gameObject.SetActive(false);
-            }
+            HUD_Player.SetActive(false);
         }
-
-        // turnTeamNameTxt.text = "Turn: " + TurnManager.turnTeamName;
     }
 }

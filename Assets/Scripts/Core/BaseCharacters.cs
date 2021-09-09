@@ -6,6 +6,7 @@ public class BaseCharacters : MonoBehaviour
 {
     [Header("Características Base")]
     [SerializeField] protected string _nome;
+    [SerializeField] Sprite _photoPerson;
     [SerializeField] protected int _hp, _precisaoUnidade, _defesa, _visao, _acoes, _qtdMovimentos;
 
     // TODO - Implementar sistema de proteção
@@ -17,6 +18,10 @@ public class BaseCharacters : MonoBehaviour
     {
         get { return _nome; }
         set { _nome = value; }
+    }
+    public Sprite photoPerson
+    {
+        get { return _photoPerson; }
     }
 
     public int precisaoUnidade

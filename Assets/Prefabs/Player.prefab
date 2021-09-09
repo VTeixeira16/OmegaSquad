@@ -63,13 +63,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nome: Unnamed
+  _photoPerson: {fileID: 21300000, guid: f9fc9661b7df6644eba0fc10b8862a0d, type: 3}
   _hp: 10
   _precisaoUnidade: 5
   _defesa: 1
   _visao: 5
   _acoes: 2
   _qtdMovimentos: 2
-  _photoPerson: {fileID: 21300000, guid: f9fc9661b7df6644eba0fc10b8862a0d, type: 3}
   _weaponContainer: {fileID: 8364477446822065765}
 --- !u!33 &4768600831305840554
 MeshFilter:
@@ -107,6 +107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Weapon1: {fileID: 2826242270925656861}
   Weapon2: {fileID: 2222885492513131863}
+  Weapons:
+  - {fileID: 2826242270925656861}
+  - {fileID: 2222885492513131863}
 --- !u!1001 &1950787924306219638
 PrefabInstance:
   m_ObjectHideFlags: 0

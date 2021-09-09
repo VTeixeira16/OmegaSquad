@@ -24,7 +24,8 @@ public class AttackScript
     
     public static void Atacar(GameObject Atacante, GameObject Defensor)
     {
-        if(!confirmacaoAtaque)
+        TurnManager.SetActualTargetAttack(Defensor);
+        if (!confirmacaoAtaque)
         {
             Debug.Log("confirmacao falsa");
             confirmacaoAtaque = true;

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerMovement : TacticMovement
 {
+    WeaponController weaponCtl;
+
     void Start()
     {
         Init();
+        weaponCtl = this.GetComponent<PlayerCharacters>().weaponContainer.GetComponent<WeaponController>();
     }
 
     void Update()
@@ -21,6 +24,7 @@ public class PlayerMovement : TacticMovement
         {
             FindSelectableTiles();
             CheckMouse();
+            CheckInput();
         }
         else
         {
@@ -52,6 +56,17 @@ public class PlayerMovement : TacticMovement
                     AttackScript.Atacar(this.gameObject, hit.collider.gameObject);
                 }
             }
+        }
+    }
+    void CheckInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            weaponCtl.activeWeaponNumber = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            weaponCtl.activeWeaponNumber = 1;
         }
     }
 

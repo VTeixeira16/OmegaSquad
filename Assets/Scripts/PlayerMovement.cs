@@ -12,13 +12,15 @@ public class PlayerMovement : TacticMovement
         weaponCtl = this.GetComponent<PlayerCharacters>().weaponContainer.GetComponent<WeaponController>();
     }
 
-    void Update()
+    new void Update()
     {
+        base.Update();
 
         if (!turn)
         {
             return;
         }
+
         //TODO - Verificacao deve ocorrer uma unica vez e no inicio do turno
         if (!_movendo)
         {
@@ -28,7 +30,11 @@ public class PlayerMovement : TacticMovement
         }
         else
         {
-            Move();
+            if(baseCharacters.qtdMovimentos > 0)
+            {
+                Move();
+            }
+
         }
     }
 
@@ -42,7 +48,7 @@ public class PlayerMovement : TacticMovement
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.tag == "Tile")
+                if (hit.collider.tag == "Tile" && baseCharacters.qtdMovimentos > 0)
                 {
                     TileScript t = hit.collider.GetComponent<TileScript>();
                     if (t.selecionavel)
@@ -68,7 +74,20 @@ public class PlayerMovement : TacticMovement
         {
             weaponCtl.activeWeaponNumber = 1;
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (baseCharacters.acoes > 0 && weaponCtl.activeWeapon.GetComponent<WeaponScript>().Recarregar())
+            {
+                baseCharacters.acoes--;
+            }
+        }
+
+        // TODO - Implementacao nao esta funcionando corretamente.
+        if (Input.GetKeyDown(KeyCode.End))
+        {
+            TurnManager.EndTurn();
+        }
+
     }
-
-
 }

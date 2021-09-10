@@ -14,8 +14,9 @@ public class NPCMovement : TacticMovement
     }
 
     // Update is called once per frame
-    protected void Update()
+    new protected void Update()
     {
+        base.Update();
 
         if (!turn)
         {

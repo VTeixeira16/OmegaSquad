@@ -19877,5 +19877,13 @@ PrefabInstance:
       propertyPath: _nome
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4768600831305840559, guid: 2813c431436650647a90756a119607a0, type: 3}
+      propertyPath: _acoesBase
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4768600831305840559, guid: 2813c431436650647a90756a119607a0, type: 3}
+      propertyPath: _qtdMovimentosBase
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2813c431436650647a90756a119607a0, type: 3}

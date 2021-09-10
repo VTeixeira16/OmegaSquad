@@ -30,6 +30,7 @@ public class ZombieMovement : NPCMovement
     new void Update()
     {
         //TODO - Como implementacao de estados de zumbis estava com muitos bugs, sera retomada posteriormente
+        //Confirmar se Update funciona corretamente, pois NPCMovement herda TactcMovement
         base.Update();
     }
 }

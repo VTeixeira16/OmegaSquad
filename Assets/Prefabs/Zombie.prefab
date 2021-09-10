@@ -53,8 +53,8 @@ MonoBehaviour:
   _precisaoUnidade: 1
   _defesa: 0
   _visao: 0
-  _acoes: 1
-  _qtdMovimentos: 1
+  _acoesBase: 0
+  _qtdMovimentosBase: 1
 --- !u!114 &2064039632400247327
 MonoBehaviour:
   m_ObjectHideFlags: 0

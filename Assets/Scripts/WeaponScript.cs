@@ -44,4 +44,17 @@ public class WeaponScript : MonoBehaviour
         _cartuchoQtd = _cartuchoMax;
     }
 
+    public bool Recarregar()
+    {
+        if (_cartuchoQtd < _cartuchoMax)
+        {
+            _cartuchoQtd = _cartuchoMax;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }

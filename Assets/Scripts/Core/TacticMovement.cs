@@ -24,7 +24,8 @@ public class TacticMovement : MonoBehaviour
     bool calculouTiles = false;
 
     protected bool _turn = false;
-    protected int _acoes;
+
+    protected BaseCharacters baseCharacters;
 
     public bool movendo
     {
@@ -47,10 +48,22 @@ public class TacticMovement : MonoBehaviour
         set { _turn = value; }
     }
 
-    public int acoes
+    protected void Awake()
     {
-        get { return _acoes; }
-        set { _acoes = value; }
+        baseCharacters = this.GetComponent<BaseCharacters>();
+    }
+
+    protected void Update()
+    {
+        if (turn && baseCharacters.qtdMovimentos <= 0 && baseCharacters.acoes <= 0)
+        {
+            TurnManager.EndTurn();
+        }
+        if(this.tag == "Zombie")
+        {
+            // Debug.Log("baseCharacters.qtdMovimentos" + baseCharacters.qtdMovimentos);
+            // Debug.Log("baseCharacters.acoes" + baseCharacters.acoes);
+        }
     }
 
     protected void Init()
@@ -171,8 +184,7 @@ public class TacticMovement : MonoBehaviour
             //todo remove the selectable tiles
             RemoveSelectableTiles();
             movendo = false;
-            TurnManager.EndTurn();
-
+            baseCharacters.qtdMovimentos--;
         }
     }
 
@@ -310,13 +322,16 @@ public class TacticMovement : MonoBehaviour
         calculouTiles = false;
         turn = true;
         TurnManager.SetActualUnit(gameObject);
-        //if (this.GetComponent<CaracBase>().hp > 0)
+
+        if (baseCharacters.hp > 0)
         {
-            this._acoes = 2;
+            baseCharacters.qtdMovimentos = baseCharacters.qtdMovimentosBase;
+            baseCharacters.acoes = baseCharacters.acoesBase;
         }
-        //else
+        else
         {
-            //this._acoes = 0;
+            baseCharacters.qtdMovimentos = 0;
+            baseCharacters.acoes = 0;
         }
     }
 

@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField] Text turnTeamNameTxt, textAmmo;
+    [SerializeField] Text turnTeamNameTxt, textAmmo, textPlayerHp, textEnemyHp;
     [SerializeField] Image photoActualPlayer, photoActualWeapon, photoActualEnemy;
 
 
     [SerializeField] GameObject HUD_Player;
+    [SerializeField] GameObject HUD_Enemy;
+
 
     [SerializeField] List<GameObject> MovementsQtd = new List<GameObject>();
     [SerializeField] List<GameObject> ActionsQtd = new List<GameObject>();
@@ -35,12 +37,17 @@ public class HUD : MonoBehaviour
             BaseCharacters actualEnemy;
             if (TurnManager.GetActualTargetAttack() != null)
             {
+                HUD_Enemy.SetActive(true);
+
                 actualEnemy = TurnManager.GetActualTargetAttack().GetComponent<BaseCharacters>();
                 photoActualEnemy.gameObject.SetActive(true);
                 photoActualEnemy.sprite = actualEnemy.photoPerson;
+                textEnemyHp.text = actualEnemy.hp + "/" + actualEnemy.hpBase;
             }
             else
             {
+                HUD_Enemy.SetActive(false);
+
                 actualEnemy = null;
                 photoActualEnemy.gameObject.SetActive(false);
             }
@@ -53,6 +60,9 @@ public class HUD : MonoBehaviour
             photoActualPlayer.sprite = actualPlayer.photoPerson;
             photoActualWeapon.sprite = actualWeapon.photoWeapon;
             textAmmo.text = actualWeapon.cartuchoQtd + "/" + actualWeapon.cartuchoMax;
+            textPlayerHp.text = actualPlayer.hp + "/" + actualPlayer.hpBase;
+
+
 
             for (int x = 0; x < MovementsQtd.Count; x++)
             {

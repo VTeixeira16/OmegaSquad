@@ -7,7 +7,7 @@ public class NPCCharacters : BaseCharacters
     new void Start()
     {
         base.Start();
-        _hp = 9;
+        _hp = _hpBase;
         _precisaoUnidade = 5;
         _defesa = 3;
         _visao = 40;

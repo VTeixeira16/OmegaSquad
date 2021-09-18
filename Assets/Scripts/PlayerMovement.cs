@@ -86,8 +86,8 @@ public class PlayerMovement : TacticMovement
         // TODO - Implementacao nao esta funcionando corretamente.
         if (Input.GetKeyDown(KeyCode.End))
         {
-            TurnManager.EndTurn();
+            baseCharacters.acoes = 0;
+            baseCharacters.qtdMovimentos = 0;
         }
-
     }
 }

@@ -7,9 +7,9 @@ public class BaseCharacters : MonoBehaviour
     [Header("Características Base")]
     [SerializeField] protected string _nome;
     [SerializeField] Sprite _photoPerson;
-    [SerializeField] protected int _hp, _precisaoUnidade, _defesa, _visao, _acoesBase, _qtdMovimentosBase;
+    [SerializeField] protected int _hpBase, _precisaoUnidade, _defesa, _visao, _acoesBase, _qtdMovimentosBase;
 
-    protected int _acoes, _qtdMovimentos;
+    protected int _hp, _acoes, _qtdMovimentos;
     
 
     // TODO - Implementar sistema de proteção
@@ -68,6 +68,12 @@ public class BaseCharacters : MonoBehaviour
         set { _hp = value; }
     }
 
+    public int hpBase
+    {
+        get { return _hpBase; }
+        set { _hpBase = value; }
+    }
+
     public bool vivo
     {
         get { return _vivo; }
@@ -82,6 +88,7 @@ public class BaseCharacters : MonoBehaviour
     protected void Start()
     {
         _vivo = true;
+        _hp = _hpBase;
     }
 
     // TODO - Variavel devera ser removida justamente por ser duplicidade da negacao de vivo

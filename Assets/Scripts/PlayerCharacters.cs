@@ -32,7 +32,7 @@ public class PlayerCharacters : BaseCharacters
     new void Start()
     {
         base.Start();
-        _hp = 7;
+        _hp = _hpBase;
         _precisaoUnidade = 5;
         _defesa = 4;
         _visao = 40;

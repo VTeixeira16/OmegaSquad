@@ -85,8 +85,7 @@ public class TurnManager : MonoBehaviour
 
         List<TacticMovement> teamList = units[turnKey.Peek()];
 
-        Debug.Log("teamList: " + teamList.Count);
-
+        // Debug.Log("teamList: " + teamList.Count);
 
         foreach (TacticMovement unit in teamList)
         {

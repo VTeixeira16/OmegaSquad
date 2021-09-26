@@ -27,7 +27,7 @@ public class AttackScript
         TurnManager.SetActualTargetAttack(Defensor);
         if (!confirmacaoAtaque)
         {
-            Debug.Log("confirmacao falsa");
+            // Debug.Log("confirmacao falsa");
             confirmacaoAtaque = true;
             return;
         }

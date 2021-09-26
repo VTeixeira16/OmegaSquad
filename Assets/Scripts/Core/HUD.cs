@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField] Text turnTeamNameTxt, textAmmo, textPlayerHp, textEnemyHp;
+    [SerializeField] Text turnTeamNameTxt, textAmmo, textPlayerHp, textEnemyHp, textChoiceHit, numChoiceHit;
     [SerializeField] Image photoActualPlayer, photoActualWeapon, photoActualEnemy;
 
 
     [SerializeField] GameObject HUD_Player;
     [SerializeField] GameObject HUD_Enemy;
+    [SerializeField] GameObject HUD_ChoiceHit;
+
 
 
     [SerializeField] List<GameObject> MovementsQtd = new List<GameObject>();
@@ -24,9 +26,16 @@ public class HUD : MonoBehaviour
 
     void Start()
     {
+
+
     }
     void Update()
     {
+        //TODO - Ajustar para nao ocorrer o tempo todo
+        Texts.CheckLanguage();
+        Texts.GetText("HUD_ChoiceHit");
+        Texts.GetText("HUD_HP");
+
         turnTeamNameTxt.text = "Turn: " + TurnManager.turnTeamName;
 
         if (TurnManager.turnTeamName == "Player")
@@ -38,15 +47,19 @@ public class HUD : MonoBehaviour
             if (TurnManager.GetActualTargetAttack() != null)
             {
                 HUD_Enemy.SetActive(true);
+                HUD_ChoiceHit.SetActive(true);
 
                 actualEnemy = TurnManager.GetActualTargetAttack().GetComponent<BaseCharacters>();
                 photoActualEnemy.gameObject.SetActive(true);
                 photoActualEnemy.sprite = actualEnemy.photoPerson;
                 textEnemyHp.text = actualEnemy.hp + "/" + actualEnemy.hpBase;
+                textChoiceHit.text = Texts.GetText("HUD_ChoiceHit");
             }
             else
             {
                 HUD_Enemy.SetActive(false);
+                HUD_ChoiceHit.SetActive(false);
+
 
                 actualEnemy = null;
                 photoActualEnemy.gameObject.SetActive(false);

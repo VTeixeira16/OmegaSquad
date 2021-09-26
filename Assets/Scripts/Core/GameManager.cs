@@ -8,7 +8,10 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
+        //Inucializacao de Textos
         currentLanguage = Application.systemLanguage;
+        Texts.CheckLanguage();
         //currentLanguage = SystemLanguage.English;
 
     }

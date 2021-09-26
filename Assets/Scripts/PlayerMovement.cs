@@ -74,7 +74,6 @@ public class PlayerMovement : TacticMovement
         {
             weaponCtl.activeWeaponNumber = 1;
         }
-
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (baseCharacters.acoes > 0 && weaponCtl.activeWeapon.GetComponent<WeaponScript>().Recarregar())
@@ -88,6 +87,21 @@ public class PlayerMovement : TacticMovement
         {
             baseCharacters.acoes = 0;
             baseCharacters.qtdMovimentos = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        {
+            if(AttackScript.GetConfirmacaoAtaque() && TurnManager.GetActualTargetAttack() != null)
+            {
+                AttackScript.Atacar(this.gameObject, TurnManager.GetActualTargetAttack());
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (AttackScript.GetConfirmacaoAtaque() && TurnManager.GetActualTargetAttack() != null)
+            {
+                AttackScript.SetConfirmacaoAtaque(false);
+                TurnManager.SetActualTargetAttack(null);
+            }
         }
     }
 }

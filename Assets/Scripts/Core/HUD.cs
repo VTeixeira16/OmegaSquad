@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField] Text turnTeamNameTxt, textAmmo, textPlayerHp, textEnemyHp, textChoiceHit, numChoiceHit;
+    [SerializeField] Text turnTeamNameTxt, textAmmo, textPlayerHp, textEnemyHp, textChoiceHit, numChoiceHit, textBtnCancel, textBtnConfirm;
     [SerializeField] Image photoActualPlayer, photoActualWeapon, photoActualEnemy;
 
 
@@ -23,18 +23,8 @@ public class HUD : MonoBehaviour
 
     int hudMovements, hudActions;
 
-
-    void Start()
-    {
-
-
-    }
     void Update()
     {
-        //TODO - Ajustar para nao ocorrer o tempo todo
-        Texts.CheckLanguage();
-        Texts.GetText("HUD_ChoiceHit");
-        Texts.GetText("HUD_HP");
 
         turnTeamNameTxt.text = "Turn: " + TurnManager.turnTeamName;
 
@@ -54,6 +44,9 @@ public class HUD : MonoBehaviour
                 photoActualEnemy.sprite = actualEnemy.photoPerson;
                 textEnemyHp.text = actualEnemy.hp + "/" + actualEnemy.hpBase;
                 textChoiceHit.text = Texts.GetText("HUD_ChoiceHit");
+                textBtnCancel.text = Texts.GetText("HUD_BtnCancel");
+                textBtnConfirm.text = Texts.GetText("HUD_BtnConfirm");
+                numChoiceHit.text = AttackScript.GetChanceAcerto() + "%";
             }
             else
             {
@@ -79,7 +72,7 @@ public class HUD : MonoBehaviour
 
             for (int x = 0; x < MovementsQtd.Count; x++)
             {
-                if(x < hudMovements)
+                if (x < hudMovements)
                     MovementsQtd[x].gameObject.SetActive(true);
                 else
                     MovementsQtd[x].gameObject.SetActive(false);
@@ -97,5 +90,15 @@ public class HUD : MonoBehaviour
         {
             HUD_Player.SetActive(false);
         }
+    }
+
+    public void ButtonConfirmAttack()
+    {
+        AttackScript.Atacar(TurnManager.GetActualUnit(), TurnManager.GetActualTargetAttack());
+    }
+    public void ButtonCancelAttack()
+    {
+        AttackScript.SetConfirmacaoAtaque(false);
+        TurnManager.SetActualTargetAttack(null);
     }
 }

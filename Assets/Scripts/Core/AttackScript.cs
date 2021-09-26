@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class AttackScript
 {
-    static bool confirmacaoAtaque;
+    static bool confirmacaoAtaque = false;
+    static int chanceAcerto = 0;
 
 
-    static bool GetConfirmacaoAtaque()
+    public static bool GetConfirmacaoAtaque()
     {
         return confirmacaoAtaque;
     }
-    static void SetConfirmacaoAtaque(bool value)
+    public static void SetConfirmacaoAtaque(bool value)
     {
         confirmacaoAtaque = value;
+    }
+    public static int GetChanceAcerto()
+    {
+        return chanceAcerto;
     }
 
     public static void NPCAttack(GameObject Atacante, GameObject Defensor)
@@ -24,17 +29,11 @@ public class AttackScript
     
     public static void Atacar(GameObject Atacante, GameObject Defensor)
     {
-        TurnManager.SetActualTargetAttack(Defensor);
-        if (!confirmacaoAtaque)
-        {
-            // Debug.Log("confirmacao falsa");
-            confirmacaoAtaque = true;
-            return;
-        }
-
         if(Atacante.GetComponent<BaseCharacters>().acoes <= 0)
             return;
 
+        TurnManager.SetActualTargetAttack(Defensor);
+        
         int _precisaoArma, _precisaoUnidade, _alcanceArma, _danoArma;
         float _distanciaAlvo;
 
@@ -49,26 +48,58 @@ public class AttackScript
 
         _distanciaAlvo = Vector3.Distance(Atacante.transform.position, Defensor.transform.position);
 
-        if (calculaDano(_precisaoArma, _precisaoUnidade, _alcanceArma, _distanciaAlvo))
+        CalculaChanceAcerto(_precisaoArma, _precisaoUnidade, _alcanceArma, _distanciaAlvo);
+
+        if (!confirmacaoAtaque)
+        {
+            // Debug.Log("confirmacao falsa");
+            confirmacaoAtaque = true;
+            return;
+        }
+
+        if (CalculaDano())
             Defensor.GetComponent<BaseCharacters>().hp -= _danoArma;
 
         Atacante.GetComponent<BaseCharacters>().acoes--;
         Atacante.GetComponent<PlayerCharacters>().weaponContainer.GetComponent<WeaponController>().activeWeapon.GetComponent<WeaponScript>().cartuchoQtd--;
-        Debug.Log("_cartuchoQtd" + Atacante.GetComponent<PlayerCharacters>().weaponContainer.GetComponent<WeaponController>().activeWeapon.GetComponent<WeaponScript>().cartuchoQtd);
-
-
-        Debug.Log("_danoArma: " + _danoArma);
-        Debug.Log("Atacante: " + Atacante.name);
-        Debug.Log("Defensor: " + Defensor.name);
+        TurnManager.SetActualTargetAttack(null);
         confirmacaoAtaque = false;
+        chanceAcerto = 0;
 
 
     }
 
-    static bool calculaDano(int PrecisaoArma, int PrecisaoUnidade, int AlcanceArma, float DistanciaAlvo)
+    static void CalculaChanceAcerto(int PrecisaoArma, int PrecisaoUnidade, int AlcanceArma, float DistanciaAlvo)
     {
+        // Debug.Log("PrecisaoArma: " + PrecisaoArma);
+        // Debug.Log("PrecisaoUnidade: " + PrecisaoUnidade);
+        // Debug.Log("AlcanceArma: " + AlcanceArma);
+        // Debug.Log("DistanciaAlvo: " + DistanciaAlvo);
+
+        // int precisaoTotal = (PrecisaoArma + PrecisaoUnidade) * 5;
+        // int proximidadeAlvo = (AlcanceArma / (int)DistanciaAlvo) * 7;
+
+        int precisaoTotal = (PrecisaoArma + PrecisaoUnidade) * 3;
+        int proximidadeAlvo = (AlcanceArma / (int)DistanciaAlvo) * 3;
+
+        chanceAcerto = precisaoTotal + proximidadeAlvo;
+        if (chanceAcerto > 100)
+            chanceAcerto = 100;
+
+        // Debug.Log("chanceAcerto: " + chanceAcerto);
+
+    }
+
+    static bool CalculaDano()
+    {
+        int verificaAcerto = Random.Range(0, 100);
+        Debug.Log("Verifica Acerto: " + verificaAcerto + " / " + chanceAcerto);
+
+        if (verificaAcerto < chanceAcerto)
+            return true;
+        else
+            return false;
         //TODO - Fazer calculo de dano
 
-        return true;
     }
 }

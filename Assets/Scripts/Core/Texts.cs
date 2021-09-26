@@ -10,12 +10,16 @@ public class Texts
     static IDictionary<string, string> TextGamePT = new Dictionary<string, string>()
     {
         {"HUD_ChoiceHit", "Chance de Acerto:"},
+        {"HUD_BtnCancel", "Cancelar"},
+        {"HUD_BtnConfirm", "Confirmar"},
         {"HUD_HP", "Vida:"}
 
     };
     static IDictionary<string, string> TextGameEN = new Dictionary<string, string>()
     {
         {"HUD_ChoiceHit", "Choice Hit:"},
+        {"HUD_BtnCancel", "Cancel"},
+        {"HUD_BtnConfirm", "Confirm"},
         {"HUD_HP", "Hit Points:"}
 
     };

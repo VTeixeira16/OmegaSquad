@@ -143,6 +143,8 @@ public class TacticMovement : MonoBehaviour
         path.Clear();
         tile.alvo = true;
         _movendo = true;
+        AttackScript.SetConfirmacaoAtaque(false);
+        TurnManager.SetActualTargetAttack(null);
 
         TileScript next = tile;
         while (next != null)

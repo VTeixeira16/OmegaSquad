@@ -17,7 +17,6 @@ public class TurnManager : MonoBehaviour
     static int movingZombies; // Armazena zumbis que ainda estao se movimentando
     static string _turnTeamName;
 
-    
     public static void AddZombie()
     {
         activeZombies++;

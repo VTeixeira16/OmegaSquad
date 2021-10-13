@@ -24,7 +24,11 @@ public class PlayerMovement : TacticMovement
         //TODO - Verificacao deve ocorrer uma unica vez e no inicio do turno
         if (!_movendo)
         {
-            FindSelectableTiles();
+            if (!calculouTiles)
+            {
+                FindSelectableTiles();
+                calculouTiles = true;
+            }
             CheckMouse();
             CheckInput();
         }
@@ -32,6 +36,7 @@ public class PlayerMovement : TacticMovement
         {
             if(baseCharacters.qtdMovimentos > 0)
             {
+                calculouTiles = false;
                 Move();
             }
 

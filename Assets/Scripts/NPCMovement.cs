@@ -25,13 +25,21 @@ public class NPCMovement : TacticMovement
         //TODO - Verificacao deve ocorrer uma unica vez e no inicio do turno
         if (!_movendo)
         {
-            FindNearestTarget();
-            CalculatePath();
-            FindSelectableTiles();
+            if (!calculouTiles)
+            {
+                FindNearestTarget();
+                CalculatePath();
+                FindSelectableTiles();
+                calculouTiles = true;
+            }
         }
         else
         {
-            Move();
+            if (baseCharacters.qtdMovimentos > 0)
+            {
+                calculouTiles = false;
+                Move();
+            }
         }
     }
 

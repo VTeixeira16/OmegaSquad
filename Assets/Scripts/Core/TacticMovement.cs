@@ -21,7 +21,7 @@ public class TacticMovement : MonoBehaviour
 
     protected TileScript actualTargetTile;
 
-    bool calculouTiles = false;
+    protected bool calculouTiles = false;
 
     protected bool _turn = false;
 
@@ -64,6 +64,7 @@ public class TacticMovement : MonoBehaviour
             // Debug.Log("baseCharacters.qtdMovimentos" + baseCharacters.qtdMovimentos);
             // Debug.Log("baseCharacters.acoes" + baseCharacters.acoes);
         }
+        Debug.Log(">>>>" + calculouTiles + " _ " + gameObject.name);
     }
 
     protected void Init()
@@ -114,7 +115,8 @@ public class TacticMovement : MonoBehaviour
 
         process.Enqueue(tileAtual);
         tileAtual.visited = true;
-        
+        calculouTiles = true;
+
         while (process.Count > 0)
         {
             TileScript t = process.Dequeue();
@@ -122,11 +124,11 @@ public class TacticMovement : MonoBehaviour
             tilesSelecionaveis.Add(t);
             t.selecionavel = true;
 
-            if(t.distance < _movementRange)
+            if (t.distance < _movementRange)
             {
-                foreach(TileScript tile in t.adjacencyList)
+                foreach (TileScript tile in t.adjacencyList)
                 {
-                    if(!tile.visited)
+                    if (!tile.visited)
                     {
                         tile.parent = t;
                         tile.visited = true;
@@ -136,6 +138,7 @@ public class TacticMovement : MonoBehaviour
                 }
             }
         }
+        
     }
 
     protected void MoveToTile(TileScript tile)

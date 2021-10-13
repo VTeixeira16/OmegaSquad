@@ -22,6 +22,8 @@ public class TileScript : MonoBehaviour
     float _g = 0;
     float _h = 0;
 
+    MeshRenderer meshRender;
+
     public float f
     {
         get { return _f; }
@@ -78,7 +80,8 @@ public class TileScript : MonoBehaviour
 
     void Start()
     {
-        
+        meshRender = this.GetComponent<MeshRenderer>();
+
     }
 
     void Update()
@@ -86,21 +89,27 @@ public class TileScript : MonoBehaviour
         //Aplica Cores nos tiles de acordo com Variaveis
         if(_atual)
         {
+            meshRender.enabled = true;
             GetComponent<Renderer>().material.color = Color.magenta;
+
         }
         else if(_alvo)
         {
+            meshRender.enabled = true;
             GetComponent<Renderer>().material.color = Color.green;
         }
         else if(_selecionavel)
         {
+            meshRender.enabled = true;
             GetComponent<Renderer>().material.color = Color.red;
         }
         else
         {
+            meshRender.enabled = false;
             GetComponent<Renderer>().material.color = Color.white;
         }
     }
+
 
     public void Reset()
     {
@@ -142,7 +151,8 @@ public class TileScript : MonoBehaviour
             {
                 RaycastHit hit;
 
-                if(!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1) || (tile == alvo))
+                if (!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1) || (tile == alvo))
+                //if (!Physics.Raycast(tile.GetComponent<Collider>().transform.position, Vector3.up, out hit, 1) || (tile == alvo))
                 {
                     adjacencyList.Add(tile);
                 }

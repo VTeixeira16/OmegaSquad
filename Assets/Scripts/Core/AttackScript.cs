@@ -27,10 +27,10 @@ public class AttackScript
         Atacar(Atacante, Defensor);
     }
     
-    public static void Atacar(GameObject Atacante, GameObject Defensor)
+    public static bool Atacar(GameObject Atacante, GameObject Defensor)
     {
         if(Atacante.GetComponent<BaseCharacters>().acoes <= 0)
-            return;
+            return false;
 
         TurnManager.SetActualTargetAttack(Defensor);
         
@@ -54,7 +54,7 @@ public class AttackScript
         {
             // Debug.Log("confirmacao falsa");
             confirmacaoAtaque = true;
-            return;
+            return false;
         }
 
         if (CalculaDano())
@@ -66,7 +66,7 @@ public class AttackScript
         confirmacaoAtaque = false;
         chanceAcerto = 0;
 
-
+        return true;
     }
 
     static void CalculaChanceAcerto(int PrecisaoArma, int PrecisaoUnidade, int AlcanceArma, float DistanciaAlvo)

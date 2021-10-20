@@ -4,15 +4,39 @@ using UnityEngine;
 
 public class TacticMovement : MonoBehaviour
 {
+
+    //Usado para animacoes
+    protected enum UnitStates : int
+    {
+        Morto, // TODO - Implementar
+        Vagando, // TODO - Implementar
+        Morrendo, // TODO - Implementar
+        Idle,
+        Movendo,
+        Atacando, // TODO - Implementar
+        Perseguindo, // TODO - Implementar
+        Recarregando,
+        TrocandoArma
+    }
+
+    protected UnitStates unitState;
+
+
     List<TileScript> tilesSelecionaveis = new List<TileScript>();
     GameObject[] tiles;
 
     protected Stack<TileScript> path = new Stack<TileScript>();
     TileScript tileAtual;
 
-    [SerializeField] protected bool _movendo = false;
+    protected bool _movendo = false;
+    protected bool _atacando = false;
+    protected bool _recarregando = false;
+    protected bool _changeWeapon = false;
     [SerializeField] protected int _movementRange = 5;
     [SerializeField] protected float _velMovimento = 7;
+
+    [SerializeField]protected GameObject char3D_Object;
+    protected Animator animator;
 
     protected Vector3 velocity = new Vector3();
     protected Vector3 heading = new Vector3();
@@ -51,11 +75,16 @@ public class TacticMovement : MonoBehaviour
     protected void Awake()
     {
         baseCharacters = this.GetComponent<BaseCharacters>();
+        animator = char3D_Object.GetComponent<Animator>();
+
+        animator.SetInteger("Hp", baseCharacters.hp);
+        animator.SetInteger("State", (int)UnitStates.Idle);
     }
 
     protected void Update()
     {
-        if (turn && baseCharacters.qtdMovimentos <= 0 && baseCharacters.acoes <= 0)
+
+        if (turn && (baseCharacters.qtdMovimentos <= 0 && baseCharacters.acoes <= 0))
         {
             TurnManager.EndTurn();
         }
@@ -64,7 +93,9 @@ public class TacticMovement : MonoBehaviour
             // Debug.Log("baseCharacters.qtdMovimentos" + baseCharacters.qtdMovimentos);
             // Debug.Log("baseCharacters.acoes" + baseCharacters.acoes);
         }
-        Debug.Log(">>>>" + calculouTiles + " _ " + gameObject.name);
+
+        UpdateStates();
+
     }
 
     protected void Init()
@@ -75,6 +106,59 @@ public class TacticMovement : MonoBehaviour
         halfHeight = 0.01f;
 
         TurnManager.AddUnit(this);
+    }
+
+    void UpdateStates()
+    {
+        /*
+        Morto, // TODO - Implementar
+        Vagando, // TODO - Implementar
+        Morrendo, // TODO - Implementar
+        Idle,
+        Movendo,
+        Atacando, // TODO - Implementar
+        Perseguindo, // TODO - Implementar
+        Recarregando,
+        TrocandoArma
+        */
+
+        if (baseCharacters.hp <= 0)
+            unitState = UnitStates.Morto;
+        else if (movendo)
+            unitState = UnitStates.Movendo;
+        else if (_atacando)
+            unitState = UnitStates.Atacando;
+        else if (_recarregando)
+            unitState = UnitStates.Recarregando;
+        else if (_changeWeapon)
+            unitState = UnitStates.TrocandoArma;
+        else
+            unitState = UnitStates.Idle;
+        
+        switch (unitState)
+        {
+            case UnitStates.Morto:
+
+                break;
+            case UnitStates.Atacando:
+                _atacando = false;
+                break;
+            case UnitStates.Recarregando:
+                _recarregando = false;
+                break;
+            case UnitStates.TrocandoArma:
+                _changeWeapon = false;
+                break;
+            default:
+                break;
+        }
+
+        animator.SetInteger("State", (int)unitState);
+
+        if ((animator.GetCurrentAnimatorStateInfo(0).IsName("TZ_death_A") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f))
+        {
+            //Destroy(this.gameObject);
+        }
     }
 
     public void GetTileAtual()

@@ -64,7 +64,7 @@ public class PlayerMovement : TacticMovement
 
                 if (hit.collider.tag == "NPC" || hit.collider.tag == "Zombie")
                 {
-                    AttackScript.Atacar(this.gameObject, hit.collider.gameObject);
+                    _atacando = AttackScript.Atacar(this.gameObject, hit.collider.gameObject);
                 }
             }
         }
@@ -74,16 +74,19 @@ public class PlayerMovement : TacticMovement
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             weaponCtl.activeWeaponNumber = 0;
+            _changeWeapon = true;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             weaponCtl.activeWeaponNumber = 1;
+            _changeWeapon = true;
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (baseCharacters.acoes > 0 && weaponCtl.activeWeapon.GetComponent<WeaponScript>().Recarregar())
             {
                 baseCharacters.acoes--;
+                _recarregando = true;
             }
         }
 

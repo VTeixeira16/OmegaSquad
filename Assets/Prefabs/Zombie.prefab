@@ -70,6 +70,7 @@ MonoBehaviour:
   _movendo: 0
   _movementRange: 5
   _velMovimento: 15
+  char3D_Object: {fileID: 5718003294433804582}
 --- !u!33 &2064039632400247324
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -161,6 +162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 092e9e52547aea340a2bdc02da47bf13, type: 3}
+--- !u!1 &5718003294433804582 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 181272, guid: 092e9e52547aea340a2bdc02da47bf13, type: 3}
+  m_PrefabInstance: {fileID: 5718003294433920318}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5718003294433562896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 431150, guid: 092e9e52547aea340a2bdc02da47bf13, type: 3}

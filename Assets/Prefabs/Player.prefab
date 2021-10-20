@@ -50,6 +50,7 @@ MonoBehaviour:
   _movendo: 0
   _movementRange: 5
   _velMovimento: 15
+  char3D_Object: {fileID: 8364477446822065773}
 --- !u!114 &4768600831305840559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,6 +582,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: e9c8d924ef1788e4c85663f8825f1873, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dfc4a565abb41240bf6e4d862b16247, type: 3}
+--- !u!1 &8364477446822065773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100052, guid: 5dfc4a565abb41240bf6e4d862b16247, type: 3}
+  m_PrefabInstance: {fileID: 8364477446822162617}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8364477446822554125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400052, guid: 5dfc4a565abb41240bf6e4d862b16247, type: 3}
